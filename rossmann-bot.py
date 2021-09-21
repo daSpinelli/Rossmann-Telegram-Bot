@@ -77,16 +77,16 @@ def parse_message(message):
 
 def get_help():
     hour = pd.datetime.now().hour
-    msg_help  = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!%0A%0A'
-    msg_help += 'Welcome to Rossmann Stores Sales Prediction. A project developd by Denny de Almeida Spinelli.%0A'
-    msg_help += 'For full info go to the [project github](https://github.com/daSpinelli/dsEmProd).%0A'
-    msg_help += 'Well, in this telegram bot you access to preditions about Rossmann Stores.%0A%0A'
-    msg_help += 'Here are you options:%0A%0A'
-    msg_help += 'help -> shows the commands%0A'
-    msg_help += 'top predictions ->: shows a bar graph with the top 5 predictions%0A'
-    msg_help += 'top sales -> shows a bar graph with the top sales + predictions%0A'
-    msg_help += 'n -> shows the prediction for a single store, where n is the id of a store%0A'
-    msg_help += 'n,n,n,n -> shows the predictions for a list of stores, where n is the id of a store%0A%0A'
+    msg_help  = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!'
+    msg_help += 'Welcome to Rossmann Stores Sales Prediction. A project developd by Denny de Almeida Spinelli.'
+    msg_help += 'For full info go to the [project github](https://github.com/daSpinelli/dsEmProd).'
+    msg_help += 'Well, in this telegram bot you access to preditions about Rossmann Stores.'
+    msg_help += 'Here are you options:'
+    msg_help += 'help -> shows the commands'
+    msg_help += 'top predictions ->: shows a bar graph with the top 5 predictions'
+    msg_help += 'top sales -> shows a bar graph with the top sales + predictions'
+    msg_help += 'n -> shows the prediction for a single store, where n is the id of a store'
+    msg_help += 'n,n,n,n -> shows the predictions for a list of stores, where n is the id of a store'
     msg_help += 'Make good use of these data! With great powers comes great responsabilities!'
     
     return msg_help
@@ -101,6 +101,11 @@ def index():
         message = request.get_json()
         
         chat_id, command = parse_message(message)
+        
+        try:
+            command = int(command)
+        except ValueError:
+            command = command        
         
         # filtered prediction
         if (command.find(',') >= 0) | (type(command) == int):
