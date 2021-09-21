@@ -103,7 +103,7 @@ def index():
         chat_id, command = parse_message(message)
         
         # filtered prediction
-        if (command.find(',') >= 0) | type(command) == int:
+        if (command.find(',') >= 0) | (type(command) == int):
             store_id = command.split(',')
             store_id = [store_id for x in store_id if type(x) == int]
             
@@ -131,19 +131,19 @@ def index():
                 return Response('Ok', status=200)
 
         # start & help
-        elif (command == 'start') | (command == 'help'):
+        elif (command.lower() == 'start') | (command.lower() == 'help'):
             msg_help = get_help()
             
             send_message(chat_id, msg_help)
             return Response('Ok', status=200)
 
         # top prediction
-        elif command == 'top5predictions':
+        elif command.lower() == 'top predictions':
             send_message(chat_id, 'top5prediction')
             return Response('Ok', status=200)
 
         # top sales
-        elif command == 'top5sales':
+        elif command.lower() == 'top sales':
             send_message(chat_id, 'top5sales')
             return Response('Ok', status=200)            
             
