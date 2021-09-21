@@ -21,7 +21,7 @@ TOKEN = '1964746514:AAGmnUoclbp8R1NczhX38vt8_4Da10u4uW4'
 
 def send_message(chat_id, text):
     url = 'https://api.telegram.org/bot{}/'.format( TOKEN ) 
-    url = url + 'sendMessage?chat_id={}'.format( chat_id ) 
+    url = url + 'sendMessage?parse_mode=MarkdownV2&chat_id={}'.format( chat_id ) 
 
     r = requests.post( url, json={'text': text } )
     print( 'Status Code {}'.format( r.status_code ) )
@@ -77,16 +77,16 @@ def parse_message(message):
 
 def get_help():
     hour = pd.datetime.now().hour
-    msg_help  = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!\n\n'
-    msg_help += 'Welcome to Rossmann Stores Sales Prediction. A project developd by Denny de Almeida Spinelli.\n'
-    msg_help += 'For full info go to the [project github](https://github.com/daSpinelli/dsEmProd).\n'
-    msg_help += 'Well, in this telegram bot you access to preditions about Rossmann Stores.\n\n'
-    msg_help += 'Here are you options:\n'
-    msg_help += 'help: shows the commands\n'
-    msg_help += 'top predictions: shows a bar graph with the top 5 predictions\n'
-    msg_help += 'top sales: shows a bar graph with the top sales + predictions\n'
-    msg_help += 'n: shows the prediction for a single store, where n is the id of a store\n'
-    msg_help += 'n,n,n,n: shows the predictions for a list of stores, where n is the id of a store\n\n'
+    msg_help  = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!%0A%0A'
+    msg_help += 'Welcome to Rossmann Stores Sales Prediction. A project developd by Denny de Almeida Spinelli.%0A'
+    msg_help += 'For full info go to the [project github](https://github.com/daSpinelli/dsEmProd).%0A'
+    msg_help += 'Well, in this telegram bot you access to preditions about Rossmann Stores.%0A%0A'
+    msg_help += 'Here are you options:%0A%0A'
+    msg_help += 'help -> shows the commands%0A'
+    msg_help += 'top predictions ->: shows a bar graph with the top 5 predictions%0A'
+    msg_help += 'top sales -> shows a bar graph with the top sales + predictions%0A'
+    msg_help += 'n -> shows the prediction for a single store, where n is the id of a store%0A'
+    msg_help += 'n,n,n,n -> shows the predictions for a list of stores, where n is the id of a store%0A%0A'
     msg_help += 'Make good use of these data! With great powers comes great responsabilities!'
     
     return msg_help
@@ -102,8 +102,8 @@ def index():
         
         chat_id, command = parse_message(message)
         
-        # rfiltered prediction
-        if command.find(',') >= 0:
+        # filtered prediction
+        if (command.find(',') >= 0) | type(command) == int:
             store_id = command.split(',')
             store_id = [store_id for x in store_id if type(x) == int]
             
