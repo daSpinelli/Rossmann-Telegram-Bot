@@ -131,19 +131,19 @@ def index():
                 return Response('Ok', status=200)
 
         # start & help
-        elif (text == 'start') | (text == 'help'):
+        elif (command == 'start') | (command == 'help'):
             msg_help = get_help()
             
             send_message(chat_id, msg_help)
             return Response('Ok', status=200)
 
         # top prediction
-        elif text == 'top5predictions':
+        elif command == 'top5predictions':
             send_message(chat_id, 'top5prediction')
             return Response('Ok', status=200)
 
         # top sales
-        elif text == 'top5sales':
+        elif command == 'top5sales':
             send_message(chat_id, 'top5sales')
             return Response('Ok', status=200)            
             
