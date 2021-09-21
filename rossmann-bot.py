@@ -37,7 +37,7 @@ def load_dataset(store_id):
     df_test = pd.merge(df_test_raw, df_store_raw, how='left', on='Store')
 
     # choose store for prediction
-    df_test = df_test[df_test['Store']==store_id]
+    df_test = df_test[df_test['Store'].isin(store_id)]
     
     if not df_test.empty:
         # remove closed days
@@ -70,14 +70,26 @@ def parse_message(message):
     chat_id = message['message']['chat']['id']
     store_id = message['message']['text']
     
-    store_id = store_id.replace('/', '')
+    command = store_id.replace('/', '')
+    command = store_id.replace(' ', '')
+            
+    return chat_id, command
+
+def get_help():
+    hour = pd.datetime.now().hour
+    msg_help  = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!\n\n'
+    msg_help += 'Welcome to Rossmann Stores Sales Prediction. A project developd by Denny de Almeida Spinelli.\n'
+    msg_help += 'For full info go to the [project github](https://github.com/daSpinelli/dsEmProd).\n'
+    msg_help += 'Well, in this telegram bot you access to preditions about Rossmann Stores.\n\n'
+    msg_help += 'Here are you options:\n'
+    msg_help += 'help: shows the commands\n'
+    msg_help += 'top predictions: shows a bar graph with the top 5 predictions\n'
+    msg_help += 'top sales: shows a bar graph with the top sales + predictions\n'
+    msg_help += 'n: shows the prediction for a single store, where n is the id of a store\n'
+    msg_help += 'n,n,n,n: shows the predictions for a list of stores, where n is the id of a store\n\n'
+    msg_help += 'Make good use of these data! With great powers comes great responsabilities!'
     
-    try:
-        store_id = int(store_id)
-    except ValueError:
-        store_id = 'error'
-        
-    return chat_id, store_id
+    return msg_help
 
 # API initialize
 app = Flask(__name__)
@@ -88,9 +100,13 @@ def index():
     if request.method == 'POST':
         message = request.get_json()
         
-        chat_id, store_id = parse_message(message)
+        chat_id, command = parse_message(message)
         
-        if store_id != 'error':
+        # rfiltered prediction
+        if command.find(',') >= 0:
+            store_id = command.split(',')
+            store_id = [store_id for x in store_id if type(x) == int]
+            
             # loading data
             data = load_dataset(store_id)
             
@@ -113,9 +129,28 @@ def index():
             else:
                 send_message(chat_id, 'Store ID do not exist')
                 return Response('Ok', status=200)
+
+        # start & help
+        elif (text == 'start') | (text == 'help'):
+            msg_help = get_help()
+            
+            send_message(chat_id, msg_help)
+            return Response('Ok', status=200)
+
+        # top prediction
+        elif text == 'top5predictions':
+            send_message(chat_id, 'top5prediction')
+            return Response('Ok', status=200)
+
+        # top sales
+        elif text == 'top5sales':
+            send_message(chat_id, 'top5sales')
+            return Response('Ok', status=200)            
             
         else:
-            send_message(chat_id, 'Store ID is not valid')
+            msg_help = get_help()
+            send_message(chat_id, 'Invalid Command')
+            send_message(chat_id, msg_help)
             return Response('Ok', status=200)
         
     else:
