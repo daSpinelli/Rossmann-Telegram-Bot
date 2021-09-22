@@ -117,8 +117,7 @@ def index():
         
         # filtered prediction
         if (type(command) == list) | (type(command) == int):
-            store_id = command.split(',')
-            store_id = [store_id for x in store_id if type(x) == int]
+            store_id = command
             
             # loading data
             data = load_dataset(store_id)
@@ -134,8 +133,8 @@ def index():
                 for i in range(len(d2)):
                 # send message
                     msg = 'Store Number {} will sell R${:,.2f} in the next 6 weeks'.format(
-                        d2.loc[i, 'store'].values[0],
-                        d2.loc[i, 'prediction'].values[0]
+                        d2.loc[i, 'store'],
+                        d2.loc[i, 'prediction']
                     )
                     send_message( chat_id, msg )
                 
