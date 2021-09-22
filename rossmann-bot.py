@@ -117,7 +117,8 @@ def index():
         
         # filtered prediction
         if (type(command) == list) | (type(command) == int):
-            store_id = command
+            # reshape if there is only one store_id
+            store_id = command if type(command) == list else [command,]
             
             # loading data
             data = load_dataset(store_id)
