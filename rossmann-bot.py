@@ -2,6 +2,7 @@ import pandas as pd
 import json
 import requests
 from flask import Flask, request, Response
+from datetime import datetime as dt
 import os
 
 # constants
@@ -76,7 +77,7 @@ def parse_message(message):
     return chat_id, command
 
 def get_help():
-    hour = pd.datetime.now().hour
+    hour = dt.datetime.now().hour
     msg_help  = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!'
     msg_help += 'Welcome to Rossmann Stores Sales Prediction. A project developd by Denny de Almeida Spinelli.'
     msg_help += 'For full info go to the [project github](https://github.com/daSpinelli/dsEmProd).'
@@ -115,11 +116,12 @@ def index():
         if type(command) != int:
             command = command.split(',') if command.find(',') >= 0 else command
         print('split - command: {}'.format(command))
+        
         # filtered prediction
         if (type(command) == list) | (type(command) == int):
             # reshape if there is only one store_id
             store_id = command if type(command) == list else [command,]
-            
+            print('filtered: {}'.format(store_id))
             # loading data
             data = load_dataset(store_id)
             
@@ -146,24 +148,27 @@ def index():
                 return Response('Ok', status=200)
 
         # start & help
-        elif (command.lower() == 'start') | (command.lower() == 'help'):
+        elif (command == 'start') | (command == 'help'):
             msg_help = get_help()
-            
+            print('help: {}'.format(msg_help))
             send_message(chat_id, msg_help)
             return Response('Ok', status=200)
 
         # top prediction
-        elif command.lower() == 'top predictions':
-            send_message(chat_id, 'top5prediction')
+        elif command == 'toppredictions':
+            print('top predictions')
+            send_message(chat_id, 'top 5 prediction')
             return Response('Ok', status=200)
 
         # top sales
-        elif command.lower() == 'top sales':
-            send_message(chat_id, 'top5sales')
+        elif command.lower() == 'topsales':
+            print('top sales')
+            send_message(chat_id, 'top 5 sales')
             return Response('Ok', status=200)            
             
         else:
             msg_help = get_help()
+            print('help: {}'.format(msg_help))
             send_message(chat_id, 'Invalid Command')
             send_message(chat_id, msg_help)
             return Response('Ok', status=200)
