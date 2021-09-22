@@ -2,7 +2,7 @@ import pandas as pd
 import json
 import requests
 from flask import Flask, request, Response
-from datetime import datetime as dt
+from datetime import datetime
 import os
 
 # constants
@@ -77,7 +77,7 @@ def parse_message(message):
     return chat_id, command
 
 def get_help():
-    hour = dt.datetime.now().hour
+    hour = datetime.now().hour
     msg_help  = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!'
     msg_help += 'Welcome to Rossmann Stores Sales Prediction. A project developd by Denny de Almeida Spinelli.'
     msg_help += 'For full info go to the [project github](https://github.com/daSpinelli/dsEmProd).'
