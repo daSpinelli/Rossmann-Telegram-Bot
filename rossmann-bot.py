@@ -23,7 +23,7 @@ TOKEN = '1964746514:AAGmnUoclbp8R1NczhX38vt8_4Da10u4uW4'
 def send_message(chat_id, text):
     url = 'https://api.telegram.org/bot{}/'.format( TOKEN ) 
     url = url + 'sendMessage?parse_mode=MarkdownV2&chat_id={}'.format( chat_id ) 
-
+    print( 'url: {}'.format( url) )
     r = requests.post( url, json={'text': text } )
     print( 'Status Code {}'.format( r.status_code ) )
 
@@ -141,38 +141,39 @@ def index():
                     )
                     send_message( chat_id, msg )
                     print('return message: {}'.format(msg))
-                    return Response('Ok', status=200)
+                    #return Response('Ok', status=200)
                 
             else:
                 send_message(chat_id, 'Store ID do not exist')
-                return Response('Ok', status=200)
+                #return Response('Ok', status=200)
 
         # start & help
         elif (command == 'start') | (command == 'help'):
             msg_help = get_help()
             print('help: {}'.format(msg_help))
             send_message(chat_id, msg_help)
-            return Response('Ok', status=200)
+            #return Response('Ok', status=200)
 
         # top prediction
         elif command == 'toppredictions':
             print('top predictions')
             send_message(chat_id, 'top 5 prediction')
-            return Response('Ok', status=200)
+            #return Response('Ok', status=200)
 
         # top sales
         elif command.lower() == 'topsales':
             print('top sales')
             send_message(chat_id, 'top 5 sales')
-            return Response('Ok', status=200)            
+            #return Response('Ok', status=200)            
             
         else:
             msg_help = get_help()
             print('help: {}'.format(msg_help))
             send_message(chat_id, 'Invalid Command')
-            #return Response('Ok', status=200)
             send_message(chat_id, 'msg_help')
-            return Response('Ok', status=200)
+            #return Response('Ok', status=200)
+            
+        return Response('Ok', status=200)
         
     else:
         return '<h1> Rossmann Telegram BOT</h1>'
