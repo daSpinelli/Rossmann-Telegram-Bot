@@ -171,7 +171,7 @@ def index():
             print('help: {}'.format(msg_help))
             send_message(chat_id, 'Invalid Command')
             return Response('Ok', status=200)
-            send_message(chat_id, msg_help)
+            send_message(chat_id, 'msg_help')
             return Response('Ok', status=200)
         
     else:
