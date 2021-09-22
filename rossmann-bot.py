@@ -79,16 +79,16 @@ def parse_message(message):
 def get_help():
     hour = datetime.now().hour
     msg_help  = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!'
-#     msg_help += 'Welcome to Rossmann Stores Sales Prediction. A project developd by Denny de Almeida Spinelli.'
-#     msg_help += 'For full info go to the [project github](https://github.com/daSpinelli/dsEmProd).'
-#     msg_help += 'Well, in this telegram bot you access to preditions about Rossmann Stores.'
-#     msg_help += 'Here are you options:'
-#     msg_help += 'help -> shows the commands'
-#     msg_help += 'top predictions ->: shows a bar graph with the top 5 predictions'
-#     msg_help += 'top sales -> shows a bar graph with the top sales + predictions'
-#     msg_help += 'n -> shows the prediction for a single store, where n is the id of a store'
-#     msg_help += 'n,n,n,n -> shows the predictions for a list of stores, where n is the id of a store'
-#     msg_help += 'Make good use of these data! With great powers comes great responsabilities!'
+    msg_help += 'Welcome to Rossmann Stores Sales Prediction. A project developd by Denny de Almeida Spinelli.'
+    msg_help += 'For full info go to the [project github](https://github.com/daSpinelli/dsEmProd).'
+    msg_help += 'Well, in this telegram bot you access to preditions about Rossmann Stores.'
+    msg_help += 'Here are you options:'
+    msg_help += 'help -> shows the commands'
+    msg_help += 'top predictions ->: shows a bar graph with the top 5 predictions'
+    msg_help += 'top sales -> shows a bar graph with the top sales + predictions'
+    msg_help += 'n -> shows the prediction for a single store, where n is the id of a store'
+    msg_help += 'n,n,n,n -> shows the predictions for a list of stores, where n is the id of a store'
+    msg_help += 'Make good use of these data! With great powers comes great responsabilities!'
     
     return msg_help
 
@@ -140,8 +140,8 @@ def index():
                         d2.loc[i, 'prediction']
                     )
                     send_message( chat_id, msg )
-                
-                return Response('Ok', status=200)
+                    print('return message: {}'.format(msg))
+                    return Response('Ok', status=200)
                 
             else:
                 send_message(chat_id, 'Store ID do not exist')
@@ -170,6 +170,7 @@ def index():
             msg_help = get_help()
             print('help: {}'.format(msg_help))
             send_message(chat_id, 'Invalid Command')
+            return Response('Ok', status=200)
             send_message(chat_id, msg_help)
             return Response('Ok', status=200)
         
