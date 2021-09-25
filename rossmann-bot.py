@@ -131,20 +131,20 @@ def index():
         message = request.get_json()
         
         chat_id, command = parse_message(message)
-        print('initial command: {}'.fotmat(command))
+        print('initial command: {}'.format(command))
         try:
             command = command.lower()
         except ValueError:
             command = command
-        print('lower command: {}'.fotmat(command))
+        print('lower command: {}'.format(command))
         try:
             command = int(command)
         except ValueError:
             command = command
-        print('int command: {}'.fotmat(command))
+        print('int command: {}'.format(command))
         if type(command) != int:
             command = command.split(',') if command.find(',') >= 0 else command
-        print('split command: {}'.fotmat(command))
+        print('split command: {}'.format(command))
         # filtered prediction
         if (type(command) == list) | (type(command) == int):
             # reshape if there is only one store_id
