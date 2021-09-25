@@ -57,7 +57,7 @@ def send_photo(chat_id, photo_path, caption):
         'Content-Type': 'application/json'
     }
     
-    print('Photo path: {}'.format(photo))
+    print('Photo path: {}'.format(photo_path))
     r = requests.post(url, json=message, headers=header)
     print('Status Code {}'.format(r.status_code))
     print('Chat ID: {}'.format(chat_id))
