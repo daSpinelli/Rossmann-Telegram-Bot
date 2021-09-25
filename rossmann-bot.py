@@ -235,7 +235,7 @@ def index():
             
             d2 = d1[['store', 'prediction']].groupby('store').sum().reset_index()
             
-            d3 = d2.nlargest(5, 'predictions')
+            d3 = d2.nlargest(5, 'prediction')
             
             # graph definitions
             x_ax = 'store',
