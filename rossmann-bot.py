@@ -93,38 +93,33 @@ def parse_message(message):
             
     return chat_id, command
 
-def get_help():
-    hour = datetime.now().hour
-#     msg_help  = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!'
-#     msg_help += '%0A%0AWelcome to Rossmann Stores Sales Prediction!'
-#     msg_help += '%0AA project developd by Denny de Almeida Spinelli.'
-#     msg_help += '%0AFor full info go to the <a href="https://github.com/daSpinelli/dsEmProd"> project github</a>.'
-#     msg_help += '%0A%0AThrough this telegram bot you will access sales preditions of Rossmann Stores.'
-#     msg_help += '%0A%0A<u><b>Here are you options</b></u>'
-#     msg_help += '%0A%0A<b>help:</b> shows the commands'
-#     msg_help += '%0A<b>top predictions:</b> shows a bar graph with the top 5 predictions'
-#     msg_help += '%0A<b>top sales:</b> shows a bar graph with the top sales + predictions'
-#     msg_help += '%0A<b>n:</b> shows the prediction for a single store, where n is the id of a store'
-#     msg_help += '%0A<b>n,n,n,n:</b> shows the predictions for a list of stores, where n is the id of a store'
-#     msg_help += '%0A<br/>Make good use of these data! With great powers comes great responsabilities!'
+def get_help(greeting=True):
+    msg_help_g = ''
+    if greeting:
     
-    greeting = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!'
-    github_link = 'https://github.com/daSpinelli/dsEmProd'
-    
-    msg_help  = '''Hello! {}!
+        hour = datetime.now().hour
+
+        greeting = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!'
+        github_link = 'https://github.com/daSpinelli/dsEmProd'
+        linkedin_link = 'https://linkedin.com/in/dennydaspinelli'
+
+        msg_help_g  = '''Hello! {}!
 Welcome to Rossmann Stores Sales Prediction!
-A project developd by Denny de Almeida Spinelli.
-For full info go to the <a href="{}"> project github</a>.
+A project developd by <a hred="{}">Denny de Almeida Spinelli</a>.
+For full info, go to the <a href="{}">project github</a>.
 
 Through this telegram bot you will access sales preditions of Rossmann Stores.
 
-<b><u>Here are you options</u></b>
 
-<b>help -&gt</b> shows the commands
-<b>top predictions -&gt</b> shows a bar graph with the top 5 predictions
-<b>top sales -&gt</b> shows a bar graph with the top sales + predictions
-<b>n -&gt</b> shows the prediction for a single store, where n is the id of a store
-<b>n,n,n,n -&gt</b> shows the predictions for a list of stores, where n is the id of a store
+'''
+    msg_help = msg_help_g +
+'''<b><u>Here are you options</u></b>
+
+<b><i>help</i></b> : available commands
+<b><i>top predictions</i></b> : a bar graph with the top 5 predictions
+<b><i>top sales</i></b> : a bar graph with the top sales + predictions
+<b><i>n</i></b> : prediction for a single store, where n is the id of a store
+<b><i>n,n,n,n</i></b> : predictions for a list of stores, where n is the id of a store
 
 Make good use of these data! With great powers comes great responsabilities!'
    '''.format(greeting, github_link)
@@ -206,9 +201,9 @@ def index():
             #return Response('Ok', status=200)            
             
         else:
-            msg_help = get_help()
+            msg_help = get_help(greeting = False)
             print('help: {}'.format(msg_help))
-            send_message(chat_id, 'Invalid Command')
+            send_message(chat_id, 'This is an invalid command!')
             send_message(chat_id, 'msg_help')
             #return Response('Ok', status=200)
             
