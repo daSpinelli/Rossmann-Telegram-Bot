@@ -2,7 +2,6 @@ import pandas as pd
 import json
 import requests
 from flask import Flask, request, Response
-from datetime import datetime
 import os
 
 # constants
@@ -93,14 +92,12 @@ def parse_message(message):
 def get_help(greeting=True):
     msg_help_g = ''
     if greeting:
-    
-        hour = datetime.now().hour
 
-        greeting = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!'
         github_link = 'https://github.com/daSpinelli/dsEmProd'
         linkedin_link = 'https://linkedin.com/in/dennydaspinelli'
 
-        msg_help_g  = '''Hello! {}!
+        msg_help_g  = '''Hello!
+
 Welcome to Rossmann Stores Sales Prediction!
 A project developd by <a hred="{}">Denny de Almeida Spinelli</a>.
 For full info, go to the <a href="{}">project github</a>.
@@ -112,6 +109,7 @@ Through this telegram bot you will access sales preditions of Rossmann Stores.
         
     msg_help = msg_help_g + '''<b><u>Here are you options</u></b>
 
+<b><i>start</i></b> : project info
 <b><i>help</i></b> : available commands
 <b><i>top predictions</i></b> : a bar graph with the top 5 predictions
 <b><i>top sales</i></b> : a bar graph with the top sales + predictions
@@ -133,20 +131,20 @@ def index():
         message = request.get_json()
         
         chat_id, command = parse_message(message)
-
+        print('initial command: {}'.fotmat(command))
         try:
             command = command.lower()
         except ValueError:
             command = command
-
+        print('lower command: {}'.fotmat(command))
         try:
             command = int(command)
         except ValueError:
             command = command
-
+        print('int command: {}'.fotmat(command))
         if type(command) != int:
             command = command.split(',') if command.find(',') >= 0 else command
-        
+        print('split command: {}'.fotmat(command))
         # filtered prediction
         if (type(command) == list) | (type(command) == int):
             # reshape if there is only one store_id
@@ -161,7 +159,7 @@ def index():
                 
                 # calculation
                 d2 = d1[['store', 'prediction']].groupby('store').sum().reset_index()
-
+                print('itens da predição: {}'.format(len(d2)))
                 for i in range(len(d2)):
                 # send message
                     msg = 'Store Number {} will sell R${:,.2f} in the next 6 weeks'.format(
@@ -176,9 +174,15 @@ def index():
                 send_message(chat_id, 'Store ID do not exist')
                 #return Response('Ok', status=200)
 
-        # start & help
-        elif (command == 'start') | (command == 'help'):
+        # start
+        elif (command == 'start'):
             msg_help = get_help()
+            send_message(chat_id, msg_help)
+            #return Response('Ok', status=200)
+            
+        # help
+        elif (command == 'help'):
+            msg_help = get_help(False)
             send_message(chat_id, msg_help)
             #return Response('Ok', status=200)
 
