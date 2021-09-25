@@ -49,10 +49,10 @@ def load_dataset(store_id):
 
     # merge test dataset with Store
     df_test = pd.merge(df_test_raw, df_store_raw, how='left', on='Store')
-    print('store id inside load dataset: {}\n store id type: {}'.format(store_id, type(store_id)))
+    
     # choose store for prediction
     df_test = df_test[df_test['Store'].isin(store_id)]
-    
+    print('df_test = df_test[df_test["Store"].isin({})]\n\n{}'.format(store_id, df_test))
     if not df_test.empty:
         # remove closed days
         df_test = df_test[df_test['Open'] != 0]
@@ -151,7 +151,7 @@ def index():
             store_id = command if type(command) == list else [command,]
             # loading data
             data = load_dataset(store_id)
-            
+            print(data[:13])
             if data != 'error':
                 
                 # prediction
