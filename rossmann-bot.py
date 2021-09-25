@@ -35,10 +35,10 @@ def send_message(chat_id, text):
         'Content-Type': 'application/json'
     }
     
-    print('text: {}'.format( text))
+    print('Text: {}'.format( text))
     r = requests.post(url, json=message, headers=header)
     print('Status Code {}'.format( r.status_code ))
-    print(chat_id)
+    print('Chat ID: {}'.format(chat_id))
 
     return None
         
@@ -52,7 +52,7 @@ def load_dataset(store_id):
     
     # choose store for prediction
     df_test = df_test[df_test['Store'].isin(store_id)]
-    print('df_test = df_test[df_test["Store"].isin({})]\n\n{}'.format(store_id, df_test))
+
     if not df_test.empty:
         # remove closed days
         df_test = df_test[df_test['Open'] != 0]
@@ -147,11 +147,15 @@ def index():
         
         # filtered prediction
         if (type(command) == list) | (type(command) == int):
-            # reshape if there is only one store_id
-            store_id = command if type(command) == list else [command,]
+            # reshape if there is only one store_id and convert list from string to int
+            if type(store_id) == list:
+                store_id = [int(x) for x in store_id]
+            else:
+                store_id = [command,]
+                
             # loading data
             data = load_dataset(store_id)
-            print(data[:13])
+
             if data != 'error':
                 
                 # prediction
@@ -159,7 +163,7 @@ def index():
                 
                 # calculation
                 d2 = d1[['store', 'prediction']].groupby('store').sum().reset_index()
-                print('itens da predição: {}'.format(len(d2)))
+
                 for i in range(len(d2)):
                 # send message
                     msg = 'Store Number {} will sell R${:,.2f} in the next 6 weeks'.format(
