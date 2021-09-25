@@ -148,8 +148,8 @@ def index():
         # filtered prediction
         if (type(command) == list) | (type(command) == int):
             # reshape if there is only one store_id and convert list from string to int
-            if type(store_id) == list:
-                store_id = [int(x) for x in store_id]
+            if type(command) == list:
+                store_id = [int(x) for x in command]
             else:
                 store_id = [command,]
                 
@@ -197,7 +197,7 @@ def index():
             #return Response('Ok', status=200)
 
         # top sales
-        elif command.lower() == 'topsales':
+        elif command == 'topsales':
             print('top sales')
             send_message(chat_id, 'top 5 sales')
             #return Response('Ok', status=200)            
