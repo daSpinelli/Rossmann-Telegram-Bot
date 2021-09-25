@@ -49,7 +49,7 @@ def load_dataset(store_id):
 
     # merge test dataset with Store
     df_test = pd.merge(df_test_raw, df_store_raw, how='left', on='Store')
-
+    print('store id inside load dataset: {}\n store id type: {}'.format(store_id, type(store_id)))
     # choose store for prediction
     df_test = df_test[df_test['Store'].isin(store_id)]
     
@@ -131,21 +131,20 @@ def index():
         message = request.get_json()
         
         chat_id, command = parse_message(message)
-        print('initial command: {}'.format(command))
+        
         try:
             command = command.lower()
         except ValueError:
             command = command
-        print('lower command: {}'.format(command))
+        
         try:
             command = int(command)
         except ValueError:
             command = command
-        print('int command: {}'.format(command))
+        
         if type(command) != int:
             command = command.split(',') if command.find(',') >= 0 else command
-        print('split command: {}'.format(command))
-        print('command type: {}'.format(type(command)))
+        
         # filtered prediction
         if (type(command) == list) | (type(command) == int):
             # reshape if there is only one store_id
