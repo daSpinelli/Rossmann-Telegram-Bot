@@ -106,8 +106,8 @@ def predict(data):
 def get_graph(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name):
         fig = sns.barplot(x=x_axis, y=y_axis, data=predicted_data)
         fig.set_title(title)
-        fig.set_ylabel(ylabel)
-        fig.set_xlabel(xlabel)    
+        fig.set_xlabel(x_label)
+        fig.set_ylabel(y_label)
         ylabels = ['{:,.0f}'.format(x) + 'K' for x in fig.get_yticks()/1000]
         fig.set_yticklabels(ylabels)
         fig.figure.savefig(img_name)
@@ -239,12 +239,12 @@ def index():
             d3 = d2.nlargest(5, 'prediction')
             
             # graph definitions
-            x_ax = 'store',
-            y_ax = 'prediction',
-            graph_title = 'Rossmann Sales Store Highest Predictions',
-            y_lbl = 'Predicion for next 6 weeks (Unit: K)',
-            x_lbl = 'Store ID',
-            image = 'top5_prediction.png'
+            x_ax = 'store'
+            y_ax = 'prediction'
+            graph_title = 'Rossmann Sales Store Highest Predictions'
+            x_lbl = 'Store ID'
+            y_lbl = 'Predicion for next 6 weeks (Unit: K)'
+            image_path = 'top5_prediction.png'
             
             get_graph(
                 d3,
@@ -253,10 +253,10 @@ def index():
                 title=graph_title,
                 x_label=x_lbl,
                 y_label=y_lbl,
-                img_name=image
+                img_name=image_path
             )
                         
-            send_photo(chat_id, image, 'Top 5 Highest Predictions')
+            send_photo(chat_id, image_path, graph_title)
             #return Response('Ok', status=200)
 
         # top sales
