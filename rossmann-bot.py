@@ -95,18 +95,38 @@ def parse_message(message):
 
 def get_help():
     hour = datetime.now().hour
-    msg_help  = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!'
-    msg_help += '%0A%0AWelcome to Rossmann Stores Sales Prediction!'
-    msg_help += '%0AA project developd by Denny de Almeida Spinelli.'
-    msg_help += '%0AFor full info go to the <a href="https://github.com/daSpinelli/dsEmProd"> project github</a>.'
-    msg_help += '%0A%0AThrough this telegram bot you will access sales preditions of Rossmann Stores.'
-    msg_help += '%0A%0A<u><b>Here are you options</b></u>'
-    msg_help += '%0A%0A<b>help:</b> shows the commands'
-    msg_help += '%0A<b>top predictions:</b> shows a bar graph with the top 5 predictions'
-    msg_help += '%0A<b>top sales:</b> shows a bar graph with the top sales + predictions'
-    msg_help += '%0A<b>n:</b> shows the prediction for a single store, where n is the id of a store'
-    msg_help += '%0A<b>n,n,n,n:</b> shows the predictions for a list of stores, where n is the id of a store'
-    msg_help += '%0A<br/>Make good use of these data! With great powers comes great responsabilities!'
+#     msg_help  = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!'
+#     msg_help += '%0A%0AWelcome to Rossmann Stores Sales Prediction!'
+#     msg_help += '%0AA project developd by Denny de Almeida Spinelli.'
+#     msg_help += '%0AFor full info go to the <a href="https://github.com/daSpinelli/dsEmProd"> project github</a>.'
+#     msg_help += '%0A%0AThrough this telegram bot you will access sales preditions of Rossmann Stores.'
+#     msg_help += '%0A%0A<u><b>Here are you options</b></u>'
+#     msg_help += '%0A%0A<b>help:</b> shows the commands'
+#     msg_help += '%0A<b>top predictions:</b> shows a bar graph with the top 5 predictions'
+#     msg_help += '%0A<b>top sales:</b> shows a bar graph with the top sales + predictions'
+#     msg_help += '%0A<b>n:</b> shows the prediction for a single store, where n is the id of a store'
+#     msg_help += '%0A<b>n,n,n,n:</b> shows the predictions for a list of stores, where n is the id of a store'
+#     msg_help += '%0A<br/>Make good use of these data! With great powers comes great responsabilities!'
+    
+    greeting = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!'
+    github_link = 'https://github.com/daSpinelli/dsEmProd'
+    
+    msg_help  = '''Hello! {}! Welcome to Rossmann Stores Sales Prediction!
+    A project developd by Denny de Almeida Spinelli.
+    For full info go to the <a href="{}"> project github</a>.
+    
+    Through this telegram bot you will access sales preditions of Rossmann Stores.
+    
+    Here are you options
+    
+    help: shows the commands
+    top predictions: shows a bar graph with the top 5 predictions
+    top sales: shows a bar graph with the top sales + predictions
+    n: shows the prediction for a single store, where n is the id of a store
+    n,n,n,n: shows the predictions for a list of stores, where n is the id of a store
+    
+    Make good use of these data! With great powers comes great responsabilities!'
+   '''.format(greeting, github_link)
     
     return msg_help
 
