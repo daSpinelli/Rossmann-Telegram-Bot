@@ -22,12 +22,25 @@ TOKEN = '1964746514:AAGmnUoclbp8R1NczhX38vt8_4Da10u4uW4'
 
 def send_message(chat_id, text):
     parse = 'HTML'
-    url = 'https://api.telegram.org/bot{}/'.format( TOKEN )
-    url = url + 'sendMessage?chat_id={}'.format( chat_id )
-    url = url + '&parse_mode={}'.format(parse)
+    url = 'https://api.telegram.org/bot{}/sendMessage'.format( TOKEN )
+    #url = url + 'sendMessage?chat_id={}'.format( chat_id )
+    #url = url + '&parse_mode={}'.format(parse)
     #url = url + '&disable_web_page_preview=True'
+    
+    message = {
+        'text': text,
+        'parse_mode': 'HTML',
+        'disable_web_page_preview': True,
+        'chat_id': chat_id
+    }
+    
+    header = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+    
     print( 'text: {}'.format( text) )
-    r = requests.post( url, json={'text': text } )
+    r = requests.post(url, json=message, headers=header)
     print( 'Status Code {}'.format( r.status_code ) )
     print(chat_id)
 
@@ -83,17 +96,17 @@ def parse_message(message):
 def get_help():
     hour = datetime.now().hour
     msg_help  = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!'
-    msg_help += '<br/><br/>Welcome to Rossmann Stores Sales Prediction!'
-    msg_help += '<br/>A project developd by Denny de Almeida Spinelli.'
-    msg_help += '<br/>For full info go to the <a href="https://github.com/daSpinelli/dsEmProd"> project github</a>.'
-    msg_help += '<br/><br/>Through this telegram bot you will access sales preditions of Rossmann Stores.'
-    msg_help += '<br/><br/><u><b>Here are you options</b></u>'
-    msg_help += '<br/><br/><b>help:</b> shows the commands'
-    msg_help += '<br/><b>top predictions:</b> shows a bar graph with the top 5 predictions'
-    msg_help += '<br/><b>top sales:</b> shows a bar graph with the top sales + predictions'
-    msg_help += '<br/><b>n:</b> shows the prediction for a single store, where n is the id of a store'
-    msg_help += '<br/><b>n,n,n,n:</b> shows the predictions for a list of stores, where n is the id of a store'
-    msg_help += '<br/><br/>Make good use of these data! With great powers comes great responsabilities!'
+    msg_help += '%0A%0AWelcome to Rossmann Stores Sales Prediction!'
+    msg_help += '%0AA project developd by Denny de Almeida Spinelli.'
+    msg_help += '%0AFor full info go to the <a href="https://github.com/daSpinelli/dsEmProd"> project github</a>.'
+    msg_help += '%0A%0AThrough this telegram bot you will access sales preditions of Rossmann Stores.'
+    msg_help += '%0A%0A<u><b>Here are you options</b></u>'
+    msg_help += '%0A%0A<b>help:</b> shows the commands'
+    msg_help += '%0A<b>top predictions:</b> shows a bar graph with the top 5 predictions'
+    msg_help += '%0A<b>top sales:</b> shows a bar graph with the top sales + predictions'
+    msg_help += '%0A<b>n:</b> shows the prediction for a single store, where n is the id of a store'
+    msg_help += '%0A<b>n,n,n,n:</b> shows the predictions for a list of stores, where n is the id of a store'
+    msg_help += '%0A<br/>Make good use of these data! With great powers comes great responsabilities!'
     
     return msg_help
 
