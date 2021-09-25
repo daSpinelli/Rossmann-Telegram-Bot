@@ -23,9 +23,6 @@ TOKEN = '1964746514:AAGmnUoclbp8R1NczhX38vt8_4Da10u4uW4'
 def send_message(chat_id, text):
     parse = 'HTML'
     url = 'https://api.telegram.org/bot{}/sendMessage'.format( TOKEN )
-    #url = url + 'sendMessage?chat_id={}'.format( chat_id )
-    #url = url + '&parse_mode={}'.format(parse)
-    #url = url + '&disable_web_page_preview=True'
     
     message = {
         'text': text,
@@ -39,9 +36,9 @@ def send_message(chat_id, text):
         'Content-Type': 'application/json'
     }
     
-    print( 'text: {}'.format( text) )
+    print('text: {}'.format( text))
     r = requests.post(url, json=message, headers=header)
-    print( 'Status Code {}'.format( r.status_code ) )
+    print('Status Code {}'.format( r.status_code ))
     print(chat_id)
 
     return None
@@ -111,9 +108,9 @@ For full info, go to the <a href="{}">project github</a>.
 Through this telegram bot you will access sales preditions of Rossmann Stores.
 
 
-'''
-    msg_help = msg_help_g +
-'''<b><u>Here are you options</u></b>
+'''.format(greeting, github_link, linkedin_link)
+        
+    msg_help = msg_help_g + '''<b><u>Here are you options</u></b>
 
 <b><i>help</i></b> : available commands
 <b><i>top predictions</i></b> : a bar graph with the top 5 predictions
@@ -122,7 +119,7 @@ Through this telegram bot you will access sales preditions of Rossmann Stores.
 <b><i>n,n,n,n</i></b> : predictions for a list of stores, where n is the id of a store
 
 Make good use of these data! With great powers comes great responsabilities!'
-   '''.format(greeting, github_link)
+   '''
     
     return msg_help
 
@@ -136,26 +133,24 @@ def index():
         message = request.get_json()
         
         chat_id, command = parse_message(message)
-        print('raw - command: {}'.format(command))
+
         try:
             command = command.lower()
         except ValueError:
             command = command
-        print('lower - command: {}'.format(command))
+
         try:
             command = int(command)
         except ValueError:
             command = command
-        print('int - command: {}'.format(command))
+
         if type(command) != int:
             command = command.split(',') if command.find(',') >= 0 else command
-        print('split - command: {}'.format(command))
         
         # filtered prediction
         if (type(command) == list) | (type(command) == int):
             # reshape if there is only one store_id
             store_id = command if type(command) == list else [command,]
-            print('filtered: {}'.format(store_id))
             # loading data
             data = load_dataset(store_id)
             
@@ -184,7 +179,6 @@ def index():
         # start & help
         elif (command == 'start') | (command == 'help'):
             msg_help = get_help()
-            print('help: {}'.format(msg_help))
             send_message(chat_id, msg_help)
             #return Response('Ok', status=200)
 
@@ -202,9 +196,8 @@ def index():
             
         else:
             msg_help = get_help(greeting = False)
-            print('help: {}'.format(msg_help))
             send_message(chat_id, 'This is an invalid command!')
-            send_message(chat_id, 'msg_help')
+            send_message(chat_id, msg_help)
             #return Response('Ok', status=200)
             
         return Response('Ok', status=200)
