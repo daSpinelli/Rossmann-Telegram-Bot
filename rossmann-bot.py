@@ -35,14 +35,35 @@ def send_message(chat_id, text):
         'Content-Type': 'application/json'
     }
     
-    print('Text: {}'.format( text))
+    print('Text: {}'.format(text))
     r = requests.post(url, json=message, headers=header)
-    print('Status Code {}'.format( r.status_code ))
+    print('Status Code {}'.format(r.status_code))
     print('Chat ID: {}'.format(chat_id))
 
     return None
-        
-def load_dataset(store_id):
+
+def send_photo(chat_id, photo_path, caption):
+    url = 'https://api.telegram.org/bot{}/sendPhoto'.format( TOKEN )
+    
+    message = {
+        'photo': photo_path,
+        'caption': caption,
+        'chat_id': chat_id
+    }
+    
+    header = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+    
+    print('Photo path: {}'.format(photo))
+    r = requests.post(url, json=message, headers=header)
+    print('Status Code {}'.format(r.status_code))
+    print('Chat ID: {}'.format(chat_id))
+    
+    return None
+
+def load_dataset(store_id=None, full=False):
     # loading test dataset
     df_test_raw = pd.read_csv('test.csv')
     df_store_raw = pd.read_csv('store.csv')
@@ -50,8 +71,9 @@ def load_dataset(store_id):
     # merge test dataset with Store
     df_test = pd.merge(df_test_raw, df_store_raw, how='left', on='Store')
     
-    # choose store for prediction
-    df_test = df_test[df_test['Store'].isin(store_id)]
+    if not full:
+        # choose store for prediction
+        df_test = df_test[df_test['Store'].isin(store_id)]
 
     if not df_test.empty:
         # remove closed days
@@ -80,6 +102,17 @@ def predict(data):
 
     return d1
 
+def get_graph(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name):
+        fig = sns.barplot(x=x_axis, y=y_axis, data=predicted_data)
+        fig.set_title(title)
+        fig.set_ylabel(ylabel)
+        fig.set_xlabel(xlabel)    
+        ylabels = ['{:,.0f}'.format(x) + 'K' for x in fig.get_yticks()/1000]
+        fig.set_yticklabels(ylabels)
+        fig.figure.savefig(img_name)
+
+        return None
+
 def parse_message(message):
     chat_id = message['message']['chat']['id']
     store_id = message['message']['text']
@@ -99,7 +132,7 @@ def get_help(greeting=True):
         msg_help_g  = '''Hello!
 
 Welcome to Rossmann Stores Sales Prediction!
-A project developd by <a hred="{}">Denny de Almeida Spinelli</a>.
+A project developd by <a href="{}">Denny de Almeida Spinelli</a>.
 For full info, go to the <a href="{}">project github</a>.
 
 Through this telegram bot you will access sales preditions of Rossmann Stores.
@@ -192,8 +225,37 @@ def index():
 
         # top prediction
         elif command == 'toppredictions':
-            print('top predictions')
-            send_message(chat_id, 'top 5 prediction')
+            print('top predictions')            
+            
+            # loading data
+            data = load_dataset(full=True)
+            
+            # prediction
+            d1 = predict(data)
+            
+            d2 = d1[['store', 'prediction']].groupby('store').sum().reset_index()
+            
+            d3 = d2.nlargest(5, 'predictions')
+            
+            # graph definitions
+            x_ax = 'store',
+            y_ax = 'prediction',
+            graph_title = 'Rossmann Sales Store Highest Predictions',
+            y_lbl = 'Predicion for next 6 weeks (Unit: K)',
+            x_lbl = 'Store ID',
+            image = 'top5_prediction.png'
+            
+            get_graph(
+                d3,
+                x_axis=x_ax,
+                y_axis=y_ax,
+                title=graph_title,
+                x_label=x_lbl,
+                y_label=y_lbl,
+                img_name=image
+            )
+                        
+            send_photo(chat_id, image, 'Top 5 Highest Predictions')
             #return Response('Ok', status=200)
 
         # top sales
