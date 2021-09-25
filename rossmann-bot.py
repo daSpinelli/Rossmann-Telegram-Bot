@@ -21,8 +21,11 @@ TOKEN = '1964746514:AAGmnUoclbp8R1NczhX38vt8_4Da10u4uW4'
 # https://api.telegram.org/bot1964746514:AAGmnUoclbp8R1NczhX38vt8_4Da10u4uW4/sendMessage?chat_id=1105720401&text=Hi!
 
 def send_message(chat_id, text):
-    url = 'https://api.telegram.org/bot{}/'.format( TOKEN ) 
-    url = url + 'sendMessage?chat_id={}'.format( chat_id ) 
+    parse = 'HTML'
+    url = 'https://api.telegram.org/bot{}/'.format( TOKEN )
+    url = url + 'sendMessage?chat_id={}'.format( chat_id )
+    url = url + '&parse_mode={}'.format(parse)
+    url = url + '&disable_web_page_preview=True'
     print( 'text: {}'.format( text) )
     r = requests.post( url, json={'text': text } )
     print( 'Status Code {}'.format( r.status_code ) )
@@ -79,16 +82,16 @@ def parse_message(message):
 def get_help():
     hour = datetime.now().hour
     msg_help  = 'Good morning!' if hour < 12 else 'Good afternoon!' if hour < 18 else 'Good evening!'
-    msg_help += 'Welcome to Rossmann Stores Sales Prediction. A project developd by Denny de Almeida Spinelli.'
-    msg_help += 'For full info go to the [project github](https://github.com/daSpinelli/dsEmProd).'
-    msg_help += 'Well, in this telegram bot you access to preditions about Rossmann Stores.'
-    msg_help += 'Here are you options:'
-    msg_help += 'help -> shows the commands'
-    msg_help += 'top predictions ->: shows a bar graph with the top 5 predictions'
-    msg_help += 'top sales -> shows a bar graph with the top sales + predictions'
-    msg_help += 'n -> shows the prediction for a single store, where n is the id of a store'
-    msg_help += 'n,n,n,n -> shows the predictions for a list of stores, where n is the id of a store'
-    msg_help += 'Make good use of these data! With great powers comes great responsabilities!'
+    msg_help += '<br/>Welcome to Rossmann Stores Sales Prediction. A project developd by Denny de Almeida Spinelli.'
+    msg_help += '<br/><br/>For full info go to the <a href="https://github.com/daSpinelli/dsEmProd"> project github</a>.'
+    msg_help += '<br/><br/>Well, in this telegram bot you access to preditions about Rossmann Stores.'
+    msg_help += '<br/><b>Here are you options</b>'
+    msg_help += '<br/><b>help:</b> shows the commands'
+    msg_help += '<br/><b>top predictions:</b> shows a bar graph with the top 5 predictions'
+    msg_help += '<br/><b>top sales:</b> shows a bar graph with the top sales + predictions'
+    msg_help += '<br/><b>n:</b> shows the prediction for a single store, where n is the id of a store'
+    msg_help += '<br/><b>n,n,n,n:</b> shows the predictions for a list of stores, where n is the id of a store'
+    msg_help += '<br/><br/>Make good use of these data! With great powers comes great responsabilities!'
     
     return msg_help
 
