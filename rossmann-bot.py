@@ -57,9 +57,9 @@ def send_photo(chat_id, photo_path, caption):
         'Content-Type': 'application/json'
     }
     
-    print('Photo path: {}'.format(photo_path))
     r = requests.post(url, json=message, headers=header)
-    print('Status Code {}'.format(r.status_code))
+    print('Photo path: {}'.format(photo_path))
+    print('Status Code {}\n Response {}'.format(r.status_code, r.reason))
     print('Chat ID: {}'.format(chat_id))
     
     return None
@@ -97,7 +97,7 @@ def predict(data):
     data = data
 
     r = requests.post(url, data=data, headers=header)
-    print( 'Status Code {}\n Response {}'.format(r.status_code, r.reason) )
+    print( 'Status Code {}'.format(r.status_code))
 
     d1 = pd.DataFrame(r.json(), columns=r.json()[0].keys())
 
