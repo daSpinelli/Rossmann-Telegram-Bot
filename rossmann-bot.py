@@ -97,7 +97,7 @@ def predict(data):
     data = data
 
     r = requests.post(url, data=data, headers=header)
-    print( 'Status Code {}'.format( r.status_code ) )
+    print( 'Status Code {}\n Response {}'.format(r.status_code, r.reason) )
 
     d1 = pd.DataFrame(r.json(), columns=r.json()[0].keys())
 
