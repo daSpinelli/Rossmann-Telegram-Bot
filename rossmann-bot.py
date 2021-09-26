@@ -108,8 +108,8 @@ def get_graph(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name)
         fig.set_title(title)
         fig.set_xlabel(x_label)
         fig.set_ylabel(y_label)
-        ylabels = ['{:,.0f}'.format(x) + 'K' for x in fig.get_yticks()/1000]
-        fig.set_yticklabels(ylabels)
+#         ylabels = ['{:,.0f}'.format(x) + 'K' for x in fig.get_yticks()/1000]
+#         fig.set_yticklabels(ylabels)
         fig.figure.savefig(img_name)
 
         return None
