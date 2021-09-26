@@ -59,7 +59,7 @@ def send_photo(chat_id, photo_path, caption):
     
     r = requests.post(url, json=message, headers=header)
     print('Photo path: {}'.format(photo_path))
-    print('Status Code {}\n Response {}'.format(r.status_code, r.reason))
+    print('Status Code {}\nResponse {}\nText'.format(r.status_code, r.reason, r.text))
     print('Chat ID: {}'.format(chat_id))
     
     return None
