@@ -47,7 +47,7 @@ def send_photo(chat_id, photo_path, caption):
     url = 'https://api.telegram.org/bot{}/sendPhoto'.format( TOKEN )
     
     message = {
-        'photo': './{}'.format(photo_path)
+        'photo': './{}'.format(photo_path),
         'caption': caption,
         'chat_id': chat_id
     }
@@ -244,7 +244,7 @@ def index():
             graph_title = 'Rossmann Sales Store Highest Predictions'
             x_lbl = 'Store ID'
             y_lbl = 'Predicion for next 6 weeks (Unit: K)'
-            image_path = 'top5_prediction.png'
+            image_path = './top5_prediction.png'
             
             get_graph(
                 d3,
