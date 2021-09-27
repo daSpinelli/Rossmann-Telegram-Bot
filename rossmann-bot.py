@@ -59,7 +59,7 @@ def send_photo(chat_id, photo_path, caption):
     
     r = requests.post(url, json=message, headers=header)
     print('Photo path: {}'.format(photo_path))
-    print('Status Code {}\nResponse {}\nText'.format(r.status_code, r.reason, r.text))
+    print('Status Code {}\nResponse {}\nText {}'.format(r.status_code, r.reason, r.text))
     print('Chat ID: {}'.format(chat_id))
     
     return None
@@ -270,7 +270,8 @@ def index():
             send_message(chat_id, 'This is an invalid command!')
             send_message(chat_id, msg_help)
             #return Response('Ok', status=200)
-            
+        
+        send_message(chat_id, 'Done!')
         return Response('Ok', status=200)
         
     else:
