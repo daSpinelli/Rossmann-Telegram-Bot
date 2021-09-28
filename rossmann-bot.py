@@ -244,7 +244,7 @@ def index():
             graph_title = 'Rossmann Sales Store Highest Predictions'
             x_lbl = 'Store ID'
             y_lbl = 'Predicion for next 6 weeks (Unit: K)'
-            image_path = './top5_prediction.png'
+            image_path = '/app/top5_prediction.png'
             
             get_graph(
                 d3,
