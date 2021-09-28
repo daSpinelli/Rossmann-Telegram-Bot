@@ -103,7 +103,7 @@ def predict(data):
 
     return d1
 
-def get_graph(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name):
+def get_graph(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name, chat_id):
         fig = sns.barplot(x=x_axis, y=y_axis, data=predicted_data)
         fig.set_title(title)
         fig.set_xlabel(x_label)
@@ -116,6 +116,8 @@ def get_graph(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name)
             print('Não salvou!')
         else:
             print('Salvou')
+        
+        send_photo(chat_id, img_name, title)
 
         return None
 
@@ -258,10 +260,11 @@ def index():
                 title=graph_title,
                 x_label=x_lbl,
                 y_label=y_lbl,
-                img_name=image_path
+                img_name=image_path,
+                chat_id=chat_id
             )
                         
-            send_photo(chat_id, image_path, graph_title)
+#             send_photo(chat_id, image_path, graph_title)
             #return Response('Ok', status=200)
 
         # top sales
