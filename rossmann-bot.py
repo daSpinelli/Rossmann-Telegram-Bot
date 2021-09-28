@@ -111,6 +111,11 @@ def get_graph(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name)
 #         ylabels = ['{:,.0f}'.format(x) + 'K' for x in fig.get_yticks()/1000]
 #         fig.set_yticklabels(ylabels)
         fig.figure.savefig(img_name)
+        f = os.path.exists(img_name)
+        if not f:
+            print('Não salvou!')
+        else:
+            print('Salvou')
 
         return None
 
@@ -244,7 +249,7 @@ def index():
             graph_title = 'Rossmann Sales Store Highest Predictions'
             x_lbl = 'Store ID'
             y_lbl = 'Predicion for next 6 weeks (Unit: K)'
-            image_path = '/app/top5_prediction.png'
+            image_path = 'top5_prediction.png'
             
             get_graph(
                 d3,
