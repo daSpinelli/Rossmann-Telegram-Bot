@@ -47,7 +47,7 @@ def send_photo(chat_id, photo_path, caption):
     url = 'https://api.telegram.org/bot{}/sendPhoto'.format( TOKEN )
     
     message = {
-        'photo': open(photo_path, 'rb'),
+        'photo': photo_path,
         'caption': caption,
         'chat_id': chat_id
     }
