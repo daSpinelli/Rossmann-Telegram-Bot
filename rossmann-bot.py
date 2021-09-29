@@ -47,7 +47,7 @@ def send_photo(chat_id, photo_path, caption):
     url = 'https://api.telegram.org/bot{}/sendPhoto'.format( TOKEN )
     
     message = {
-        'photo': photo_path,
+        'photo': './{}'.format(photo_path),
         'caption': caption,
         'chat_id': chat_id
     }
@@ -132,8 +132,8 @@ def get_help(greeting=True):
     msg_help_g = ''
     if greeting:
 
-        github_link = 'https://github.com/daSpinelli/dsEmProd'
         linkedin_link = 'https://linkedin.com/in/dennydaspinelli'
+        github_link = 'https://github.com/daSpinelli/dsEmProd'
 
         msg_help_g  = '''Hello!
 
@@ -144,7 +144,7 @@ For full info, go to the <a href="{}">project github</a>.
 Through this telegram bot you will access sales preditions of Rossmann Stores.
 
 
-'''.format(greeting, github_link, linkedin_link)
+'''.format(linkedin_link, github_link)
         
     msg_help = msg_help_g + '''<b><u>Here are you options</u></b>
 
