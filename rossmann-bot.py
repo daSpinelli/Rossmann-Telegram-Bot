@@ -46,8 +46,10 @@ def send_message(chat_id, text):
 def send_photo(chat_id, photo_path, caption):
     url = 'https://api.telegram.org/bot{}/sendPhoto'.format( TOKEN )
     
+    chart_img = os.path.expanduser('~/{}'.format(photo_path))
+    
     message = {
-        'photo': './{}'.format(photo_path),
+        'photo': chart_img,
         'caption': caption,
         'chat_id': chat_id
     }
