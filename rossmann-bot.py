@@ -49,7 +49,7 @@ def send_photo(chat_id, photo_path, caption):
     chart_img = os.path.expanduser('~/{}'.format(photo_path))
     
     message = {
-        'photo': open(chart_img, 'rb'),
+        'photo': 'https://lh3.googleusercontent.com/t8jzr310rC5obgwRHRljXVYqpVt_LwPzoBoBknYxU9QH4sDPlItjYN_IGNbDIaK6d89pVC7XxGM87-QypJ9CmgHXSA=w640-h400-e365-rj-sc0x00ffffff',
         'caption': caption,
         'chat_id': chat_id
     }
