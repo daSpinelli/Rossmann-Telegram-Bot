@@ -49,7 +49,7 @@ def send_photo(chat_id, photo_path, caption):
     chart_img = os.path.expanduser('~/{}'.format(photo_path))
     
     message = {
-        'photo': chart_img,
+        'photo': open(chart_img, 'rb'),
         'caption': caption,
         'chat_id': chat_id
     }
