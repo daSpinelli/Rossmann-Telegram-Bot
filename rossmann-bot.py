@@ -59,6 +59,13 @@ def send_photo(chat_id, photo_path, caption):
         'Content-Type': 'application/json'
     }
     
+    f = os.path.isfile(chart_img)
+    if not f:
+        print('Não salvou!, {}'.format(chart_img))
+    else:
+        print('Salvou, {}'.format(chart_img))
+
+    
     r = requests.post(url, json=message, headers=header)
     print('Photo path: {}'.format(chart_img))
     print('Status Code {}\nResponse {}\nText {}'.format(r.status_code, r.reason, r.text))
