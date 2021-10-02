@@ -94,7 +94,7 @@ def draw_chart(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name
         
         print('Saving the file {}'.format(img_name))
         print('='*20)
-        print('Params:\nx_axis: {}\ny_axis: {}\ntitle: {}\nx_label: {}\ny_label {}'.format(x_axis, y_axis, title, x_label, y_label))
+        print('Params:\nx_axis: {}\ny_axis: {}\ntitle: {}\nx_label: {}\ny_label {}\nshape: {}'.format(x_axis, y_axis, title, x_label, y_label, predicted_data.shape))
         print('='*20)        
         
         return None
