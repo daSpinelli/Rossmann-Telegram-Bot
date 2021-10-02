@@ -255,7 +255,7 @@ def index():
             # get sales for the predicted ones
             df_sales_raw = pd.read_csv('train.csv')            
             df_sales_raw.columns = [col.lower() for col in df_sales_raw.columns]
-            store_predicted = data['store'].unique()
+            store_predicted = d2['store'].unique()
             df_sales = df_sales_raw.loc[df_sales_raw['store'].isin(store_predicted), ['store', 'sales']].groupby('store').sum().reset_index()
 
             d3 = pd.merge(d2, df_sales, on='store', how='left')
