@@ -28,7 +28,7 @@ def send_msg(chat_id, text, _bot, parse='HTML'):
 
     return None
 
-def send_img(chat_id, img_path, caption):
+def send_img(chat_id, img_path, caption, _bot):
     img = open(img_path, 'rb')
     _bot.send_photo(chat_id, img, caption=caption)
     
