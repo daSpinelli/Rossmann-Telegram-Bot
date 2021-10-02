@@ -206,13 +206,13 @@ def index():
         elif (command == 'start'):
             
             msg_help = get_help()
-            send_message(chat_id, msg_help, bot)
+            send_msg(chat_id, msg_help, bot)
             
         # help
         elif (command == 'help'):
             
             msg_help = get_help(False)
-            send_message(chat_id, msg_help, bot)
+            send_msg(chat_id, msg_help, bot)
 
         # top prediction
         elif command == 'toppredictions':     
@@ -256,10 +256,10 @@ def index():
         else:
             
             msg_help = get_help(greeting = False)
-            send_message(chat_id, 'This is an invalid command!', bot)
-            send_message(chat_id, msg_help, bot)
+            send_msg(chat_id, 'This is an invalid command!', bot)
+            send_msg(chat_id, msg_help, bot)
         
-        send_message(chat_id, 'Done!', bot)
+        send_msg(chat_id, 'Done!', bot)
         return Response('Ok', status=200)
         
     else:
