@@ -81,7 +81,7 @@ def draw_chart(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name
         fig.set_xlabel(x_label)
         fig.set_ylabel(y_label)
         
-        fig.yaxis.set_major_locator(mticker.MaxNLocator(5))
+        fig.yaxis.set_major_locator(mticker.MaxNLocator(8))
         yticks = fig.get_yticks()
         fig.yaxis.set_major_locator(mticker.FixedLocator(yticks))
         
@@ -90,12 +90,6 @@ def draw_chart(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name
         fig.set_yticklabels(ylabels)
         
         fig.figure.savefig(img_name)
-        
-        f = os.path.exists(img_name)
-        if not f:
-            print('Não salvou!')
-        else:
-            print('Salvou')
 
         return None
 
@@ -230,7 +224,7 @@ def index():
             # chart definitions
             x_ax = 'store'
             y_ax = 'prediction'
-            chart_title = 'Rossmann Sales Store Highest Predictions'
+            chart_title = 'Rossmann Store highest predictions'
             x_lbl = 'Store ID'
             y_lbl = 'Predicion for next 6 weeks (Unit: K)'
             image_path = './top5_prediction.png'
@@ -250,8 +244,49 @@ def index():
         # top sales
         elif command == 'topsales':
             
-            print('top sales')
-            send_msg(chat_id, 'top 5 sales', bot)
+            # loading data
+            data = load_dataset(full=True)
+            
+            # prediction
+            d1 = predict(data)
+            
+            d2 = d1[['store', 'prediction']].groupby('store').sum().reset_index()
+            
+            # get sales for the predicted ones
+            df_sales_raw = pd.read_csv('train.csv')            
+            df_sales_raw.columns = [col.lower() for col in df_sales_raw.columns]
+            store_predicted = data['store'].unique()
+            (
+                df_sales = df_sales_raw.loc[df_sales_raw['store'].isin(store_predicted), ['store', 'sales']]
+                                       .groupby('store')
+                                       .sum()
+                                       .reset_index()
+            )
+
+            d3 = pd.merge(d2, df_sales, on='store', how='left')
+            d3['total'] = d3['prediction'] + d3['sales']
+            
+            d4 = d3.nlargest(5, 'total')
+            
+            # chart definitions
+            x_ax = 'store'
+            y_ax = 'total'
+            chart_title = 'Rossmann Store highest sales + predictions'
+            x_lbl = 'Store ID'
+            y_lbl = 'Total Sales + Prediction (Unit: K)'
+            image_path = './top5_sales.png'
+            
+            draw_chart(
+                d3,
+                x_axis=x_ax,
+                y_axis=y_ax,
+                title=chart_title,
+                x_label=x_lbl,
+                y_label=y_lbl,
+                img_name=image_path
+            )
+                        
+            send_img(chat_id, image_path, chart_title, bot)
             
         else:
             
