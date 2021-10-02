@@ -272,7 +272,7 @@ def index():
             image_path = './top5_sales.png'
             
             draw_chart(
-                d3,
+                d4,
                 x_axis=x_ax,
                 y_axis=y_ax,
                 title=chart_title,
