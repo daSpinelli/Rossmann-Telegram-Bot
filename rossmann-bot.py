@@ -82,7 +82,7 @@ def draw_chart(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name
         fig.set_ylabel(y_label)
         
         fig.yaxis.set_major_locator(mticker.MultipleLocator(10000))
-        yticks = fig.get_ticks()
+        yticks = fig.get_yticks()
         fig.yaxis.set_major_locator(mticker.FixedLocator(yticks))
         
         
