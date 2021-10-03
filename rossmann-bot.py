@@ -97,7 +97,7 @@ def draw_chart(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name
         print('='*20)
         
         for d in predicted_data.values:
-            print(d['store'])
+            print(d[0])
         
         return None
 
