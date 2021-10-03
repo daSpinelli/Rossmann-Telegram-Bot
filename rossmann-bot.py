@@ -29,9 +29,7 @@ def send_msg(chat_id, text, _bot, parse='HTML'):
     return None
 
 def send_img(chat_id, img_path, caption, _bot):
-    img = open(img_path, 'rb')
-    _bot.send_photo(chat_id, img, caption=caption)
-    img.close()
+    _bot.send_photo(chat_id, open(img_path, 'rb'), caption=caption)
     print('Sending the file {}'.format(img_path))
     
     return None
@@ -96,7 +94,10 @@ def draw_chart(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name
         print('Saving the file {}'.format(img_name))
         print('='*20)
         print('Params:\nx_axis: {}\ny_axis: {}\ntitle: {}\nx_label: {}\ny_label {}\nshape: {}'.format(x_axis, y_axis, title, x_label, y_label, predicted_data.shape))
-        print('='*20)        
+        print('='*20)
+        
+        for d in predicted_data:
+            print(d['store'])
         
         return None
 
