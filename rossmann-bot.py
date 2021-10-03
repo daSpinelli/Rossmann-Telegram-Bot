@@ -238,7 +238,7 @@ def index():
             y_ax = 'prediction'
             chart_title = 'Rossmann Store highest predictions'
             x_lbl = 'Store ID'
-            y_lbl = 'Predicion for next 6 weeks (Unit: K)'
+            y_lbl = 'Prediction for next 6 weeks (Unit: K)'
             image_path = './top5_prediction.png'
             
             draw_chart(
@@ -275,7 +275,7 @@ def index():
             d3 = pd.merge(d2, df_sales, on='store', how='left')
             d3['total'] = d3['prediction'] + d3['sales']
             
-            d4 = d3.nlargest(5, 'total')
+            d3 = d3.nlargest(5, 'total')
             
             # chart definitions
             x_ax = 'store'
@@ -286,7 +286,7 @@ def index():
             image_path = './top5_sales.png'
             
             draw_chart(
-                d4,
+                d3,
                 x_axis=x_ax,
                 y_axis=y_ax,
                 title=chart_title,
