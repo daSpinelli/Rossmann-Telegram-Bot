@@ -85,7 +85,7 @@ def draw_chart(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name
         fig.yaxis.set_major_locator(mticker.FixedLocator(yticks))
         
         
-        ylabels = [tick_format.format(x) for x in yticks / div]
+        ylabels = [tick_format.format(x) for x in yticks / divisor]
         fig.set_yticklabels(ylabels)
         
         fig.figure.savefig(img_name)
