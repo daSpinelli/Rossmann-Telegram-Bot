@@ -287,8 +287,8 @@ def index():
             x_lbl = 'Store ID'
             y_lbl = 'Total Sales + Prediction (Unit: K)'
             image_path = './top5_sales.png'
-            divisor=1000000
-            tick_format='{:,.2f}mi'
+            div=1000000
+            t_format='{:,.2f}mi'
             
             draw_chart(
                 d3,
