@@ -85,7 +85,7 @@ def draw_chart(predicted_data, x_axis, y_axis, title, x_label, y_label, img_name
         fig.yaxis.set_major_locator(mticker.FixedLocator(yticks))
         
         
-        ylabels = [tick_format.format(x) for x in yticks / 1000]
+        ylabels = [tick_format.format(x) for x in yticks / div]
         fig.set_yticklabels(ylabels)
         
         fig.figure.savefig(img_name)
@@ -166,7 +166,7 @@ def index():
         
         if type(command) != int:
             command = command.split(',') if command.find(',') >= 0 else command
-        
+        print('Comando: {}'.format(command))
         # filtered prediction
         if (type(command) == list) | (type(command) == int):
             
@@ -288,7 +288,7 @@ def index():
             y_lbl = 'Total Sales + Prediction (Unit: K)'
             image_path = './top5_sales.png'
             div=1000000
-            t_format='{:,.2f}mi'
+            t_format='{:,.0f}mi'
             
             draw_chart(
                 d3,
