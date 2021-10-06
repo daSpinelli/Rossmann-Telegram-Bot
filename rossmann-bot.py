@@ -239,8 +239,8 @@ def index():
             x_lbl = 'Store ID'
             y_lbl = 'Prediction for next 6 weeks (Unit: K)'
             image_path = './top5_prediction.png'
-            divisor=1000
-            tick_format='{:,.0f}K'
+            div=1000
+            t_format='{:,.0f}K'
             
             draw_chart(
                 d3,
@@ -250,9 +250,8 @@ def index():
                 x_label=x_lbl,
                 y_label=y_lbl,
                 img_name=image_path,
-                divisor,
-                tick_format
-                
+                divisor=div,
+                tick_format=t_format
             )
                         
             send_img(chat_id, image_path, chart_title, bot)
@@ -299,8 +298,8 @@ def index():
                 x_label=x_lbl,
                 y_label=y_lbl,
                 img_name=image_path,
-                divisor,
-                tick_format
+                divisor=div,
+                tick_format=t_format
             )
                         
             send_img(chat_id, image_path, chart_title, bot)
