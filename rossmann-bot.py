@@ -132,7 +132,6 @@ Through this telegram bot you will access sales preditions of Rossmann Stores.
 <b><i>start</i></b> : project info
 <b><i>help</i></b> : available commands
 <b><i>top predictions</i></b> : a bar graph with the top 5 predictions
-<b><i>top sales</i></b> : a bar graph with the top sales + predictions
 <b><i>n</i></b> : prediction for a single store, where n is the id of a store
 <b><i>n,n,n,n</i></b> : predictions for a list of stores, where n is the id of a store
 
@@ -257,52 +256,52 @@ def index():
             send_img(chat_id, image_path, chart_title, bot)
 
         # top sales
-        elif command == 'topsales':
+#         elif command == 'topsales':
             
-            send_msg(chat_id, 'Calculating. Please wait...', bot)
+#             send_msg(chat_id, 'Calculating. Please wait...', bot)
             
-            # loading data
-            data = load_dataset(full=True)
+#             # loading data
+#             data = load_dataset(full=True)
             
-            # prediction
-            d1 = predict(data)
+#             # prediction
+#             d1 = predict(data)
             
-            d2 = d1[['store', 'prediction']].groupby('store').sum().reset_index()
+#             d2 = d1[['store', 'prediction']].groupby('store').sum().reset_index()
             
-            # get sales for the predicted ones
-            df_sales_raw = pd.read_csv('train.csv')          
-            df_sales_raw.columns = [col.lower() for col in df_sales_raw.columns]
-            store_predicted = d2['store'].unique()
-            df_sales = df_sales_raw.loc[df_sales_raw['store'].isin(store_predicted), ['store', 'sales']].groupby('store').sum().reset_index()
+#             # get sales for the predicted ones
+#             df_sales_raw = pd.read_csv('train.csv')          
+#             df_sales_raw.columns = [col.lower() for col in df_sales_raw.columns]
+#             store_predicted = d2['store'].unique()
+#             df_sales = df_sales_raw.loc[df_sales_raw['store'].isin(store_predicted), ['store', 'sales']].groupby('store').sum().reset_index()
 
-            d3 = pd.merge(d2, df_sales, on='store', how='left')
-            d3['total'] = d3['prediction'] + d3['sales']
+#             d3 = pd.merge(d2, df_sales, on='store', how='left')
+#             d3['total'] = d3['prediction'] + d3['sales']
             
-            d3 = d3.nlargest(5, 'total')
+#             d3 = d3.nlargest(5, 'total')
             
-            # chart definitions
-            x_ax = 'store'
-            y_ax = 'total'
-            chart_title = 'Rossmann Store highest sales + predictions'
-            x_lbl = 'Store ID'
-            y_lbl = 'Total Sales + Prediction (Unit: K)'
-            image_path = './top5_sales.png'
-            div=1000000
-            t_format='{:,.0f}mi'
+#             # chart definitions
+#             x_ax = 'store'
+#             y_ax = 'total'
+#             chart_title = 'Rossmann Store highest sales + predictions'
+#             x_lbl = 'Store ID'
+#             y_lbl = 'Total Sales + Prediction (Unit: K)'
+#             image_path = './top5_sales.png'
+#             div=1000000
+#             t_format='{:,.0f}mi'
             
-            draw_chart(
-                d3,
-                x_axis=x_ax,
-                y_axis=y_ax,
-                title=chart_title,
-                x_label=x_lbl,
-                y_label=y_lbl,
-                img_name=image_path,
-                divisor=div,
-                tick_format=t_format
-            )
+#             draw_chart(
+#                 d3,
+#                 x_axis=x_ax,
+#                 y_axis=y_ax,
+#                 title=chart_title,
+#                 x_label=x_lbl,
+#                 y_label=y_lbl,
+#                 img_name=image_path,
+#                 divisor=div,
+#                 tick_format=t_format
+#             )
                         
-            send_img(chat_id, image_path, chart_title, bot)
+#             send_img(chat_id, image_path, chart_title, bot)
             
         else:
             
