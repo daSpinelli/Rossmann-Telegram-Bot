@@ -5,7 +5,6 @@ import os
 import seaborn as sns
 import telegram
 import matplotlib.ticker as mticker
-import credentials
 
 from flask import Flask, request, Response
 from credentials import credentials
